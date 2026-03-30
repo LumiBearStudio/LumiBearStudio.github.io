@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPAN Finder — Miller Columns File Explorer for Windows</title>
+    <meta name="description" content="macOS Finder's Miller Columns, reimagined for Windows. Free, open-source file explorer with multi-tab, split view, themes, and more.">
+    <meta property="og:title" content="SPAN Finder — Miller Columns for Windows">
+    <meta property="og:description" content="Navigate folder hierarchies the way they were meant to be navigated. Free and open source.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/LumiBearStudio/SpanFinder/main/README/miller-columns.gif">
+    <meta property="og:url" content="https://lumibearstudio.github.io">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0d0d0d;
+            --bg-secondary: #161616;
+            --bg-card: #1a1a1a;
+            --bg-card-hover: #222222;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --text-tertiary: #666666;
+            --accent: #60cdff;
+            --accent-dim: rgba(96, 205, 255, 0.15);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Nav ── */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(13, 13, 13, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-brand img {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+        }
+
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+
+        .nav-cta {
+            background: var(--accent) !important;
+            color: #000 !important;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-weight: 600 !important;
+            transition: opacity 0.2s;
+        }
+
+        .nav-cta:hover { opacity: 0.85; }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 140px 24px 80px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent);
+            background: var(--accent-dim);
+            border: 1px solid rgba(96, 205, 255, 0.25);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 span { color: var(--accent); }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn svg { width: 18px; height: 18px; }
+
+        /* ── Demo ── */
+        .demo {
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            padding: 0 24px;
+        }
+
+        .demo-frame {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .demo-frame img {
+            width: 100%;
+            display: block;
+        }
+
+        /* ── Features ── */
+        .features {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .features-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .features-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.2s;
+        }
+
+        .feature-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--accent-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ── Themes showcase ── */
+        .themes {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .themes-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .themes-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .themes-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .themes-demo {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .themes-demo img {
+            width: 100%;
+            display: block;
+        }
+
+        /* ── Stats ── */
+        .stats {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ── Privacy ── */
+        .privacy {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        .privacy h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .privacy p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .privacy a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .privacy a:hover { text-decoration: underline; }
+
+        .privacy-badges {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .privacy-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        /* ── CTA ── */
+        .cta {
+            text-align: center;
+            padding: 80px 24px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+        }
+
+        .cta h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 32px 24px;
+            color: var(--text-tertiary);
+            font-size: 13px;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover { color: var(--text-primary); }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-links a:not(.nav-cta) { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .hero { padding: 120px 16px 60px; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">SPAN Finder</a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#themes">Themes</a>
+            <a href="#privacy">Privacy</a>
+            <a href="https://github.com/LumiBearStudio/SpanFinder" target="_blank">GitHub</a>
+            <a href="https://apps.microsoft.com/detail/9P7NJ351X9TL" target="_blank" class="nav-cta">Download</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-badge">Open Source &middot; GPL v3 &middot; Free</div>
+    <h1>macOS Finder's <span>Miller Columns</span>, reimagined for Windows.</h1>
+    <p>Navigate folder hierarchies the way they were meant to be navigated. See where you are, where you came from, and where you're going — all at once.</p>
+    <div class="hero-buttons">
+        <a href="https://apps.microsoft.com/detail/9P7NJ351X9TL" target="_blank" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+            Download from MS Store
+        </a>
+        <a href="https://github.com/LumiBearStudio/SpanFinder" target="_blank" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.607.069-.607 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            View Source
+        </a>
+    </div>
+</section>
+
+<!-- Demo -->
+<section class="demo">
+    <div class="demo-frame">
+        <img src="https://raw.githubusercontent.com/LumiBearStudio/SpanFinder/main/README/miller-columns.gif"
+             alt="SPAN Finder Miller Columns Demo" loading="lazy">
+    </div>
+</section>
+
+<!-- Features -->
+<section class="features" id="features">
+    <div class="features-header">
+        <h2>Everything you need. Nothing you don't.</h2>
+        <p>Built for power users who switched to Windows but never stopped missing column view.</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">&#x1F4C2;</div>
+            <h3>Miller Columns</h3>
+            <p>See the full folder hierarchy at once. Click a folder, its contents appear in the next column. Never lose context.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x1F4CB;</div>
+            <h3>Multi-Tab + Session Restore</h3>
+            <p>Unlimited tabs with tear-off and duplication. Close the app, reopen — every tab exactly where you left it.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x1F4DA;</div>
+            <h3>Workspaces</h3>
+            <p>Save named tab layouts and restore them instantly. Switch between "Work" and "Personal" in one click.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x1F50D;</div>
+            <h3>Preview Panel</h3>
+            <p>Press Space for Quick Look. Images, video, audio, code with syntax highlighting, PDF, hex, fonts — all built in.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x2328;&#xFE0F;</div>
+            <h3>Keyboard-First</h3>
+            <p>30+ shortcuts for users who keep their hands on the keyboard. Type-ahead search, full keyboard navigation.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x1F3A8;</div>
+            <h3>10 Themes</h3>
+            <p>Dracula, Tokyo Night, Catppuccin, Gruvbox, Nord, One Dark, Monokai, Solarized, and system Light/Dark.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x1F500;</div>
+            <h3>Split View</h3>
+            <p>Dual-pane browsing with independent view modes per pane. Drag files between panes for copy/move.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x1F4BB;</div>
+            <h3>Git Integration</h3>
+            <p>See M/A/D/? status badges right next to your files. Branch info in the status bar.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x1F310;</div>
+            <h3>Remote & Cloud</h3>
+            <p>FTP/SFTP with saved credentials. OneDrive, iCloud, Dropbox sync badges. Paste files from RDP sessions.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Themes -->
+<section class="themes" id="themes">
+    <div class="themes-header">
+        <h2>Your explorer, your colors.</h2>
+        <p>10 hand-tuned themes designed for long sessions.</p>
+    </div>
+    <div class="themes-demo">
+        <img src="https://raw.githubusercontent.com/LumiBearStudio/SpanFinder/main/README/themes.gif"
+             alt="SPAN Finder Themes" loading="lazy">
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="stats">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-number">150+</div>
+            <div class="stat-label">Features</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">30+</div>
+            <div class="stat-label">Shortcuts</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">10</div>
+            <div class="stat-label">Themes</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">9</div>
+            <div class="stat-label">Languages</div>
+        </div>
+    </div>
+</section>
+
+<!-- Privacy -->
+<section class="privacy" id="privacy">
+    <h2>Transparent by default.</h2>
+    <p>SPAN Finder uses Sentry for crash reporting only. No usage analytics, no tracking, no ads. All file paths are scrubbed before sending. You can turn it off entirely in Settings.</p>
+    <p>Don't take our word for it — <a href="https://github.com/LumiBearStudio/SpanFinder/blob/main/src/Span/Span/Services/CrashReportingService.cs">read the source</a>.</p>
+    <div class="privacy-badges">
+        <span class="privacy-badge">No Analytics</span>
+        <span class="privacy-badge">No Tracking</span>
+        <span class="privacy-badge">No Ads</span>
+        <span class="privacy-badge">Opt-out Available</span>
+        <span class="privacy-badge">Paths Scrubbed</span>
+        <span class="privacy-badge">Source Open</span>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <h2>Try it. It's free.</h2>
+    <p>Open source, no strings attached.</p>
+    <div class="hero-buttons">
+        <a href="https://apps.microsoft.com/detail/9P7NJ351X9TL" target="_blank" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+            Microsoft Store
+        </a>
+        <a href="https://github.com/LumiBearStudio/SpanFinder" target="_blank" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.607.069-.607 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+        </a>
+        <a href="https://github.com/sponsors/LumiBearStudio" target="_blank" class="btn btn-secondary">
+            &#x2764;&#xFE0F; Sponsor
+        </a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>
+        &copy; 2026 LumiBear Studio &middot;
+        <a href="https://github.com/LumiBearStudio/SpanFinder">GitHub</a> &middot;
+        <a href="https://github.com/LumiBearStudio/SpanFinder/blob/main/PRIVACY.md">Privacy</a> &middot;
+        <a href="https://github.com/LumiBearStudio/SpanFinder/blob/main/OpenSourceLicenses.md">Licenses</a>
+    </p>
+</footer>
+
+</body>
+</html>
