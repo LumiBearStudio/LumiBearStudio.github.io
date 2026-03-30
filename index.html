@@ -11,22 +11,23 @@
     <meta property="og:url" content="https://lumibearstudio.github.io">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg-primary: #0d0d0d;
-            --bg-secondary: #161616;
-            --bg-card: #1a1a1a;
-            --bg-card-hover: #222222;
-            --text-primary: #f0f0f0;
-            --text-secondary: #a0a0a0;
-            --text-tertiary: #666666;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --bg-card-hover: #1e1e1e;
+            --text-primary: #f5f5f5;
+            --text-secondary: #999999;
+            --text-tertiary: #555555;
             --accent: #60cdff;
-            --accent-dim: rgba(96, 205, 255, 0.15);
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.15);
+            --accent-dim: rgba(96, 205, 255, 0.12);
+            --accent-glow: rgba(96, 205, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
         }
 
         html { scroll-behavior: smooth; }
@@ -37,392 +38,215 @@
             color: var(--text-primary);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         /* ── Nav ── */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
-            background: rgba(13, 13, 13, 0.85);
-            backdrop-filter: blur(20px);
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--border);
         }
-
         .nav-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            max-width: 1200px; margin: 0 auto; padding: 0 24px;
+            height: 56px; display: flex; align-items: center; justify-content: space-between;
         }
-
-        .nav-brand {
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--text-primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .nav-brand img {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-        }
-
+        .nav-brand { font-weight: 700; font-size: 16px; color: var(--text-primary); text-decoration: none; }
         .nav-links { display: flex; gap: 24px; align-items: center; }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
         .nav-links a:hover { color: var(--text-primary); }
-
         .nav-cta {
-            background: var(--accent) !important;
-            color: #000 !important;
-            padding: 6px 16px;
-            border-radius: 6px;
-            font-weight: 600 !important;
-            transition: opacity 0.2s;
+            background: var(--accent) !important; color: #000 !important;
+            padding: 6px 16px; border-radius: 6px; font-weight: 600 !important; transition: opacity 0.2s;
         }
-
         .nav-cta:hover { opacity: 0.85; }
+
+        /* ── Buttons ── */
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600;
+            text-decoration: none; transition: all 0.25s;
+        }
+        .btn-primary { background: var(--accent); color: #000; }
+        .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(96,205,255,0.2); }
+        .btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--bg-card-hover); border-color: var(--border-hover); transform: translateY(-2px); }
+        .btn svg { width: 18px; height: 18px; }
+        .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
         /* ── Hero ── */
         .hero {
-            padding: 140px 24px 80px;
-            text-align: center;
-            max-width: 900px;
-            margin: 0 auto;
+            padding: 160px 24px 80px; text-align: center;
+            max-width: 950px; margin: 0 auto;
         }
-
         .hero-badge {
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--accent);
-            background: var(--accent-dim);
-            border: 1px solid rgba(96, 205, 255, 0.25);
-            margin-bottom: 24px;
+            display: inline-block; padding: 5px 16px; border-radius: 20px;
+            font-size: 13px; font-weight: 600; color: var(--accent);
+            background: var(--accent-dim); border: 1px solid rgba(96,205,255,0.2);
+            margin-bottom: 28px; letter-spacing: 0.02em;
         }
-
         .hero h1 {
-            font-size: clamp(36px, 5vw, 56px);
-            font-weight: 700;
-            line-height: 1.15;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
+            font-size: clamp(40px, 5.5vw, 64px); font-weight: 800;
+            line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.03em;
         }
-
         .hero h1 span { color: var(--accent); }
-
         .hero p {
-            font-size: 18px;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 32px;
+            font-size: 19px; color: var(--text-secondary);
+            max-width: 620px; margin: 0 auto 36px; line-height: 1.6;
         }
 
-        .hero-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
+        /* ── Cinematic sections (Apple style) ── */
+        .cinema {
+            padding: 120px 24px; text-align: center;
+            max-width: 1000px; margin: 0 auto;
         }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s;
+        .cinema-text {
+            max-width: 700px; margin: 0 auto 48px;
         }
-
-        .btn-primary {
-            background: var(--accent);
-            color: #000;
+        .cinema-text h2 {
+            font-size: clamp(28px, 4vw, 48px); font-weight: 800;
+            line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.02em;
         }
-
-        .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
-
-        .btn-secondary {
-            background: var(--bg-card);
-            color: var(--text-primary);
+        .cinema-text h2 span { color: var(--accent); }
+        .cinema-text p {
+            font-size: 17px; color: var(--text-secondary); line-height: 1.6;
+        }
+        .cinema-frame {
+            border-radius: 14px; overflow: hidden;
             border: 1px solid var(--border);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+        }
+        .cinema-frame img { width: 100%; display: block; }
+
+        /* ── Divider quote ── */
+        .divider-quote {
+            padding: 100px 24px; text-align: center;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .divider-quote h2 {
+            font-size: clamp(24px, 3.5vw, 42px); font-weight: 800;
+            line-height: 1.2; letter-spacing: -0.02em;
+            max-width: 800px; margin: 0 auto;
+        }
+        .divider-quote h2 span { color: var(--accent); }
+        .divider-quote p {
+            font-size: 16px; color: var(--text-secondary);
+            margin-top: 16px;
         }
 
-        .btn-secondary:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--border-hover);
-            transform: translateY(-1px);
-        }
-
-        .btn svg { width: 18px; height: 18px; }
-
-        /* ── Demo ── */
-        .demo {
-            max-width: 1000px;
-            margin: 0 auto 80px;
-            padding: 0 24px;
-        }
-
-        .demo-frame {
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .demo-frame img {
-            width: 100%;
-            display: block;
-        }
-
-        /* ── Features ── */
-        .features {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 24px;
-        }
-
-        .features-header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .features-header h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .features-header p {
-            color: var(--text-secondary);
-            font-size: 16px;
-        }
-
+        /* ── Features grid ── */
+        .features { max-width: 1200px; margin: 0 auto; padding: 100px 24px; }
+        .features-header { text-align: center; margin-bottom: 56px; }
+        .features-header h2 { font-size: 36px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
+        .features-header p { color: var(--text-secondary); font-size: 16px; }
         .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 16px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;
         }
-
         .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            transition: all 0.2s;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 14px; padding: 28px; transition: all 0.25s;
         }
-
         .feature-card:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
+            background: var(--bg-card-hover); border-color: var(--border-hover);
+            transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3);
         }
-
         .feature-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: var(--accent-dim);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            font-size: 20px;
+            width: 44px; height: 44px; border-radius: 10px;
+            background: var(--accent-dim); display: flex; align-items: center;
+            justify-content: center; margin-bottom: 16px; font-size: 22px;
         }
+        .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+        .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
 
-        .feature-card h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
+        /* ── Comparison table ── */
+        .comparison { max-width: 900px; margin: 0 auto; padding: 100px 24px; }
+        .comparison h2 {
+            font-size: 36px; font-weight: 800; text-align: center;
+            margin-bottom: 12px; letter-spacing: -0.02em;
         }
-
-        .feature-card p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.5;
+        .comparison > p {
+            text-align: center; color: var(--text-secondary);
+            font-size: 16px; margin-bottom: 48px;
         }
-
-        /* ── Themes showcase ── */
-        .themes {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 24px;
+        .comparison table {
+            width: 100%; border-collapse: collapse;
+            background: var(--bg-card); border-radius: 14px;
+            overflow: hidden; border: 1px solid var(--border);
         }
-
-        .themes-header {
-            text-align: center;
-            margin-bottom: 48px;
+        .comparison th, .comparison td {
+            padding: 14px 20px; text-align: left; font-size: 14px;
+            border-bottom: 1px solid var(--border);
         }
-
-        .themes-header h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 12px;
+        .comparison th {
+            background: var(--bg-secondary); font-weight: 700;
+            color: var(--text-primary); font-size: 13px;
+            text-transform: uppercase; letter-spacing: 0.05em;
         }
-
-        .themes-header p {
-            color: var(--text-secondary);
-            font-size: 16px;
-        }
-
-        .themes-demo {
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .themes-demo img {
-            width: 100%;
-            display: block;
-        }
+        .comparison td:first-child { font-weight: 600; }
+        .comparison td { color: var(--text-secondary); }
+        .comparison .yes { color: var(--accent); font-weight: 600; }
+        .comparison .no { color: var(--text-tertiary); }
+        .comparison tr:last-child td { border-bottom: none; }
 
         /* ── Stats ── */
-        .stats {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 80px 24px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
+        .stats { max-width: 1000px; margin: 0 auto; padding: 80px 24px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
         .stat-item {
-            text-align: center;
-            padding: 24px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
+            text-align: center; padding: 32px 16px;
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
         }
-
-        .stat-number {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
+        .stat-number { font-size: 40px; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; }
+        .stat-label { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
 
         /* ── Privacy ── */
-        .privacy {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 80px 24px;
-            text-align: center;
-        }
-
-        .privacy h2 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .privacy p {
-            color: var(--text-secondary);
-            font-size: 15px;
-            margin-bottom: 12px;
-        }
-
-        .privacy a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
+        .privacy { max-width: 700px; margin: 0 auto; padding: 100px 24px; text-align: center; }
+        .privacy h2 { font-size: 32px; font-weight: 800; margin-bottom: 16px; }
+        .privacy p { color: var(--text-secondary); font-size: 15px; margin-bottom: 12px; line-height: 1.6; }
+        .privacy a { color: var(--accent); text-decoration: none; }
         .privacy a:hover { text-decoration: underline; }
-
         .privacy-badges {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 24px;
+            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 28px;
         }
-
         .privacy-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
+            padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+            background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary);
         }
 
         /* ── CTA ── */
         .cta {
-            text-align: center;
-            padding: 80px 24px;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
+            text-align: center; padding: 120px 24px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
         }
-
         .cta h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 12px;
+            font-size: clamp(32px, 4vw, 48px); font-weight: 800;
+            margin-bottom: 16px; letter-spacing: -0.02em;
         }
-
-        .cta p {
-            color: var(--text-secondary);
-            font-size: 16px;
-            margin-bottom: 32px;
-        }
+        .cta p { color: var(--text-secondary); font-size: 17px; margin-bottom: 36px; }
 
         /* ── Footer ── */
         footer {
-            text-align: center;
-            padding: 32px 24px;
-            color: var(--text-tertiary);
-            font-size: 13px;
+            text-align: center; padding: 32px 24px;
+            color: var(--text-tertiary); font-size: 13px;
             border-top: 1px solid var(--border);
         }
-
-        footer a {
-            color: var(--text-secondary);
-            text-decoration: none;
-        }
-
+        footer a { color: var(--text-secondary); text-decoration: none; }
         footer a:hover { color: var(--text-primary); }
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .nav-links a:not(.nav-cta) { display: none; }
+            .comparison table { font-size: 13px; }
+            .comparison th, .comparison td { padding: 10px 12px; }
         }
-
         @media (max-width: 480px) {
-            .hero { padding: 120px 16px 60px; }
-            .hero-buttons { flex-direction: column; align-items: center; }
+            .hero { padding: 130px 16px 60px; }
+            .btn-row { flex-direction: column; align-items: center; }
             .features-grid { grid-template-columns: 1fr; }
+            .cinema { padding: 80px 16px; }
         }
     </style>
 </head>
@@ -434,7 +258,7 @@
         <a href="/" class="nav-brand">SPAN Finder</a>
         <div class="nav-links">
             <a href="#features">Features</a>
-            <a href="#themes">Themes</a>
+            <a href="#compare">Compare</a>
             <a href="#privacy">Privacy</a>
             <a href="https://github.com/LumiBearStudio/SpanFinder" target="_blank">GitHub</a>
             <a href="https://apps.microsoft.com/detail/9P7NJ351X9TL" target="_blank" class="nav-cta">Download</a>
@@ -444,10 +268,10 @@
 
 <!-- Hero -->
 <section class="hero">
-    <div class="hero-badge">Open Source &middot; GPL v3 &middot; Free</div>
-    <h1>macOS Finder's <span>Miller Columns</span>, reimagined for Windows.</h1>
-    <p>Navigate folder hierarchies the way they were meant to be navigated. See where you are, where you came from, and where you're going — all at once.</p>
-    <div class="hero-buttons">
+    <div class="hero-badge">Free &middot; Open Source &middot; GPL v3</div>
+    <h1>macOS Finder's <span>Miller Columns</span>,<br>reimagined for Windows.</h1>
+    <p>See where you are, where you came from, and where you're going — all at once. No more clicking back and forth.</p>
+    <div class="btn-row">
         <a href="https://apps.microsoft.com/detail/9P7NJ351X9TL" target="_blank" class="btn btn-primary">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
             Download from MS Store
@@ -459,19 +283,56 @@
     </div>
 </section>
 
-<!-- Demo -->
-<section class="demo">
-    <div class="demo-frame">
-        <img src="https://raw.githubusercontent.com/LumiBearStudio/SpanFinder/main/README/miller-columns.gif"
-             alt="SPAN Finder Miller Columns Demo" loading="lazy">
+<!-- Demo 1: Miller Columns -->
+<section class="cinema">
+    <div class="cinema-text">
+        <h2>Navigate like you're <span>supposed to.</span></h2>
+        <p>Click a folder. Its contents appear in the next column. You always see the full path — parent, current, children — without ever going back.</p>
+    </div>
+    <div class="cinema-frame">
+        <img src="https://raw.githubusercontent.com/LumiBearStudio/SpanFinder/main/README/miller-columns.gif" alt="Miller Columns" loading="lazy">
     </div>
 </section>
 
-<!-- Features -->
+<!-- Divider: Replace Explorer -->
+<section class="divider-quote">
+    <h2>Not just an alternative.<br><span>A full replacement.</span></h2>
+    <p>150+ features. Everything Windows Explorer does — and everything it doesn't.</p>
+</section>
+
+<!-- Demo 2: View Modes -->
+<section class="cinema">
+    <div class="cinema-text">
+        <h2><span>Four views.</span> One app.</h2>
+        <p>Miller Columns, Details, List, Icons — switch instantly with Ctrl+1 through 4. Each tab remembers its own view mode.</p>
+    </div>
+    <div class="cinema-frame">
+        <img src="https://raw.githubusercontent.com/LumiBearStudio/SpanFinder/main/README/view-modes.gif" alt="View Modes" loading="lazy">
+    </div>
+</section>
+
+<!-- Demo 3: Themes -->
+<section class="cinema">
+    <div class="cinema-text">
+        <h2>Your explorer, <span>your colors.</span></h2>
+        <p>10 hand-tuned themes. Dracula, Tokyo Night, Catppuccin, Nord, Gruvbox — the ones you actually use in your code editor.</p>
+    </div>
+    <div class="cinema-frame">
+        <img src="https://raw.githubusercontent.com/LumiBearStudio/SpanFinder/main/README/themes.gif" alt="Themes" loading="lazy">
+    </div>
+</section>
+
+<!-- Divider: Power -->
+<section class="divider-quote">
+    <h2>Built for people who <span>live in the file system.</span></h2>
+    <p>Developers. Designers. IT engineers. Anyone who touches thousands of files a day.</p>
+</section>
+
+<!-- Features Grid -->
 <section class="features" id="features">
     <div class="features-header">
         <h2>Everything you need. Nothing you don't.</h2>
-        <p>Built for power users who switched to Windows but never stopped missing column view.</p>
+        <p>Every feature exists because someone needed it.</p>
     </div>
     <div class="features-grid">
         <div class="feature-card">
@@ -482,56 +343,88 @@
         <div class="feature-card">
             <div class="feature-icon">&#x1F4CB;</div>
             <h3>Multi-Tab + Session Restore</h3>
-            <p>Unlimited tabs with tear-off and duplication. Close the app, reopen — every tab exactly where you left it.</p>
+            <p>Unlimited tabs with tear-off, duplication, and middle-click to close. Quit and relaunch — every tab exactly where you left it.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#x1F4DA;</div>
             <h3>Workspaces</h3>
-            <p>Save named tab layouts and restore them instantly. Switch between "Work" and "Personal" in one click.</p>
+            <p>Save named tab layouts. Switch between "Work" and "Personal" in one click with Ctrl+Shift+W.</p>
         </div>
         <div class="feature-card">
-            <div class="feature-icon">&#x1F50D;</div>
+            <div class="feature-icon">&#x1F50E;</div>
             <h3>Preview Panel</h3>
-            <p>Press Space for Quick Look. Images, video, audio, code with syntax highlighting, PDF, hex, fonts — all built in.</p>
+            <p>Press Space for Quick Look. Images, video, audio, code with syntax highlighting, PDF, hex dump, fonts — all built in.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#x2328;&#xFE0F;</div>
             <h3>Keyboard-First</h3>
-            <p>30+ shortcuts for users who keep their hands on the keyboard. Type-ahead search, full keyboard navigation.</p>
+            <p>30+ shortcuts, customizable bindings, type-ahead search. Your hands never leave the keyboard.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#x1F3A8;</div>
             <h3>10 Themes</h3>
-            <p>Dracula, Tokyo Night, Catppuccin, Gruvbox, Nord, One Dark, Monokai, Solarized, and system Light/Dark.</p>
+            <p>Dracula, Tokyo Night, Catppuccin, Gruvbox, Nord, One Dark, Monokai, Solarized, Light, Dark.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#x1F500;</div>
             <h3>Split View</h3>
-            <p>Dual-pane browsing with independent view modes per pane. Drag files between panes for copy/move.</p>
+            <p>Dual-pane with independent view modes. Drag files between panes. Each pane gets its own preview.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#x1F4BB;</div>
             <h3>Git Integration</h3>
-            <p>See M/A/D/? status badges right next to your files. Branch info in the status bar.</p>
+            <p>Modified, Added, Deleted, Untracked — status badges right next to your files. Branch info in the status bar.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#x1F310;</div>
             <h3>Remote & Cloud</h3>
-            <p>FTP/SFTP with saved credentials. OneDrive, iCloud, Dropbox sync badges. Paste files from RDP sessions.</p>
+            <p>FTP/SFTP with saved credentials. OneDrive, iCloud, Dropbox sync badges. Paste files directly from RDP sessions.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x270F;&#xFE0F;</div>
+            <h3>Batch Rename</h3>
+            <p>Regex, prefix/suffix, sequential numbering. Select multiple files, press F2, rename them all at once.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x21A9;&#xFE0F;</div>
+            <h3>Full Undo/Redo</h3>
+            <p>Every file operation is tracked. Ctrl+Z to undo, Ctrl+Y to redo. Configurable history depth.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#x1F5D1;&#xFE0F;</div>
+            <h3>Recycle Bin View</h3>
+            <p>Browse, restore, or permanently delete recycled items — with full Miller Columns support.</p>
         </div>
     </div>
 </section>
 
-<!-- Themes -->
-<section class="themes" id="themes">
-    <div class="themes-header">
-        <h2>Your explorer, your colors.</h2>
-        <p>10 hand-tuned themes designed for long sessions.</p>
-    </div>
-    <div class="themes-demo">
-        <img src="https://raw.githubusercontent.com/LumiBearStudio/SpanFinder/main/README/themes.gif"
-             alt="SPAN Finder Themes" loading="lazy">
-    </div>
+<!-- Comparison Table -->
+<section class="comparison" id="compare">
+    <h2>Side by side.</h2>
+    <p>See what you've been missing.</p>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Windows Explorer</th>
+                <th>SPAN Finder</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Miller Columns</td><td class="no">No</td><td class="yes">Yes</td></tr>
+            <tr><td>Multi-Tab</td><td class="no">Basic (Win 11 only)</td><td class="yes">Full — tear-off, duplicate, session restore</td></tr>
+            <tr><td>Split View</td><td class="no">No</td><td class="yes">Dual-pane, independent view modes</td></tr>
+            <tr><td>Workspaces</td><td class="no">No</td><td class="yes">Save & restore named tab layouts</td></tr>
+            <tr><td>Preview Panel</td><td class="no">Basic</td><td class="yes">10+ types — video, code, hex, fonts, PDF</td></tr>
+            <tr><td>Themes</td><td class="no">No</td><td class="yes">10 themes — Dracula, Tokyo Night, Nord...</td></tr>
+            <tr><td>Git Integration</td><td class="no">No</td><td class="yes">File status badges, branch info</td></tr>
+            <tr><td>Batch Rename</td><td class="no">No</td><td class="yes">Regex, prefix/suffix, numbering</td></tr>
+            <tr><td>Remote Connections</td><td class="no">No</td><td class="yes">FTP, FTPS, SFTP</td></tr>
+            <tr><td>Keyboard Shortcuts</td><td class="no">Limited</td><td class="yes">30+ customizable shortcuts</td></tr>
+            <tr><td>Cloud Sync Badges</td><td class="no">Basic overlay</td><td class="yes">Real-time — OneDrive, iCloud, Dropbox</td></tr>
+            <tr><td>14K+ Items</td><td class="no">Slows down</td><td class="yes">Async everything — zero lag</td></tr>
+        </tbody>
+    </table>
 </section>
 
 <!-- Stats -->
@@ -559,7 +452,7 @@
 <!-- Privacy -->
 <section class="privacy" id="privacy">
     <h2>Transparent by default.</h2>
-    <p>SPAN Finder uses Sentry for crash reporting only. No usage analytics, no tracking, no ads. All file paths are scrubbed before sending. You can turn it off entirely in Settings.</p>
+    <p>Sentry for crash reporting only. No usage analytics, no tracking, no ads. All file paths scrubbed before sending. You can turn it off entirely in Settings.</p>
     <p>Don't take our word for it — <a href="https://github.com/LumiBearStudio/SpanFinder/blob/main/src/Span/Span/Services/CrashReportingService.cs">read the source</a>.</p>
     <div class="privacy-badges">
         <span class="privacy-badge">No Analytics</span>
@@ -573,9 +466,9 @@
 
 <!-- CTA -->
 <section class="cta">
-    <h2>Try it. It's free.</h2>
-    <p>Open source, no strings attached.</p>
-    <div class="hero-buttons">
+    <h2>Ready to switch?</h2>
+    <p>Free. Open source. No strings attached.</p>
+    <div class="btn-row">
         <a href="https://apps.microsoft.com/detail/9P7NJ351X9TL" target="_blank" class="btn btn-primary">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
             Microsoft Store
