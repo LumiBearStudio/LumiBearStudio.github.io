@@ -1,0 +1,59 @@
+title: SPAN Finder
+description: Miller Columns File Explorer for Windows — User Guide
+url: https://lumibearstudio.github.io
+baseurl: ""
+
+# Just the Docs theme via remote_theme (no Gemfile build needed on GitHub Pages)
+remote_theme: just-the-docs/just-the-docs
+
+# Theme configuration
+color_scheme: dark
+search_enabled: true
+search:
+  heading_level: 3
+  previews: 3
+  preview_words_before: 5
+  preview_words_after: 10
+  tokenizer_separator: /[\s\-/]+/
+  rel_url: true
+  button: false
+
+# Site navigation
+heading_anchors: true
+back_to_top: true
+back_to_top_text: "맨 위로"
+
+# Aux links (top right)
+aux_links:
+  "GitHub":
+    - "https://github.com/LumiBearStudio/SpanFinder"
+  "Releases":
+    - "https://github.com/LumiBearStudio/SpanFinder/releases"
+aux_links_new_tab: true
+
+# Footer
+footer_content: 'Copyright &copy; 2026 LumiBear Studio. <a href="https://github.com/LumiBearStudio/SpanFinder">SPAN Finder</a> is open source under the MIT License.'
+
+# Collections / scope
+defaults:
+  - scope:
+      path: "docs"
+    values:
+      layout: default
+
+# Exclude from build
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .jekyll-cache
+  - node_modules
+
+# Plugins (must be in github-pages allowlist)
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Permalink
+permalink: pretty
