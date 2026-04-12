@@ -77,6 +77,14 @@ For unrecognized or binary formats, Span Finder falls back to a **hex dump viewe
 
 Selecting a folder shows its size, item count, and creation date. Folder sizes are computed in the background with caching so that repeat hits are instant.
 
+### Shortcuts (.lnk files)
+
+Windows shortcut files (`.lnk`) are handled intelligently:
+
+- If the shortcut points to a **folder** — the target folder's contents appear in the next Miller Column, as if you had navigated there directly.
+- If the shortcut points to a **file** — the preview panel shows the target file's content (image, text, PDF, etc.) rather than the `.lnk` file itself.
+- If the target no longer exists — the `.lnk` is treated as a generic file.
+
 ## How it works
 
 - **200 ms debounce** — Rapidly changing your selection (e.g. arrow-key scrolling through a long list) waits 200 ms before actually rendering, so Span Finder never wastes work previewing files you immediately scroll past.

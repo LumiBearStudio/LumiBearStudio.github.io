@@ -21,7 +21,7 @@ SPAN Finder packs dozens of pro-grade features. Here's the full catalog.
 
 - [Shelf](shelf/) — Temporary file holding area for batch move/copy
 - [File Operations](file-operations/) — Copy, move, rename, delete with full undo
-- [Search](search/) — Fast filename and content search
+- [Search](search/) — Fast filename and content search with structured queries
 
 ## Preview & viewing
 
@@ -30,7 +30,13 @@ SPAN Finder packs dozens of pro-grade features. Here's the full catalog.
 
 ## Customization
 
-- [Themes](themes/) — 10 built-in themes, dark/light, custom accents
+- [Themes](themes/) — 10 built-in themes, dark/light, fonts, icon packs
+
+## Integration
+
+- [Git Integration](git-integration/) — File status badges, branch info, commit history
+- [Remote Connections](remote-connections/) — FTP, FTPS, SFTP with saved credentials
+- [Sidebar](sidebar/) — Favorites, cloud storage, network drives
 
 ---
 

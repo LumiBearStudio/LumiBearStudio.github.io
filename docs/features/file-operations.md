@@ -29,7 +29,7 @@ Span Finder handles every common file operation you expect from a file manager p
 | <kbd>Ctrl</kbd> + <kbd>C</kbd> | Copy |
 | <kbd>Ctrl</kbd> + <kbd>X</kbd> | Cut |
 | <kbd>Ctrl</kbd> + <kbd>V</kbd> | Paste |
-| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> | Paste as shortcut (.lnk) |
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> | Paste as shortcut (.lnk) — see [Shortcut files](#shortcut-files-lnk) |
 | <kbd>Ctrl</kbd> + <kbd>D</kbd> | Duplicate selected items (appends " copy") |
 | <kbd>F2</kbd> | Rename |
 | <kbd>Delete</kbd> | Move to Recycle Bin |
@@ -152,6 +152,17 @@ Every file operation is written to the Action Log (JSON, up to 1,000 entries, FI
 > **Gotcha:** Permanent delete (<kbd>Shift</kbd> + <kbd>Delete</kbd>) is **not** undoable. Only Recycle Bin deletes can be restored with <kbd>Ctrl</kbd> + <kbd>Z</kbd>.
 
 > **Gotcha:** Conflict resolution does not apply to system-locked files — Windows will still refuse to overwrite in-use files and Span Finder will report the error.
+
+## Shortcut files (.lnk)
+
+<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> pastes the clipboard contents as a Windows shortcut (`.lnk`) instead of copying the actual file.
+
+Clicking a `.lnk` file in SPAN Finder resolves the target automatically:
+- **Folder target** → next Miller Column shows the target folder's contents
+- **File target** → preview panel shows the target file's content
+- **Double-click / Enter** → navigates into the target folder, or opens the target file with the default app
+
+See [Preview Panel — Shortcuts](../preview/#shortcuts-lnk-files) for details on how `.lnk` previews work.
 
 ## See also
 
